@@ -1,0 +1,31 @@
+es:
+  activerecord:
+    attributes:
+      book:
+        title: "Título del libro"
+        author: "Autor"
+      review:
+        rating: "Calificación"
+        content: "Comentario"
+        reviewer_name: "Nombre del revisor"
+    errors:
+      models:
+        book:
+          attributes:
+            title:
+              blank: "no puede estar en blanco"
+              taken: "ya existe"
+            author:
+              blank: "no puede estar en blanco"
+        review:
+          attributes:
+            rating:
+              blank: "debe ser seleccionada"
+              inclusion: "debe estar entre 1 y 5"
+            content:
+              blank: "no puede estar vacío"
+              too_long: "es demasiado largo (máximo 1000 caracteres)"
+            reviewer_name:
+              blank: "no puede estar vacío"
+              too_long: "es demasiado largo (máximo 100 caracteres)"
+

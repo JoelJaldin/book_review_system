@@ -1,0 +1,67 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
+    <%= link_to book_path(@book), class: "inline-flex items-center space-x-2 text-gray-600 hover:text-purple-500 transition-all mb-6 group" do %>
+      <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      <span class="font-medium">Volver al libro</span>
+    <% end %>
+    
+    <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-500 to-blue-600 bg-clip-text text-transparent mb-4">
+      ✏️ Editar Libro
+    </h1>
+    <p class="text-gray-600 mb-8">Modifica la información del libro</p>
+    
+    <div class="glass-card rounded-2xl shadow-xl p-8">
+      <%= form_with model: @book, local: true, class: "space-y-6" do |form| %>
+        <div>
+          <%= form.label :title, class: "block text-sm font-semibold text-gray-700 mb-2 flex items-center" do %>
+            <svg class="w-5 h-5 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            Título del Libro
+          <% end %>
+          <%= form.text_field :title, 
+              class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all",
+              placeholder: "Ingresa el título del libro" %>
+          <% if @book.errors[:title].any? %>
+            <p class="text-red-500 text-sm mt-2 flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              <%= @book.errors[:title].first %>
+            </p>
+          <% end %>
+        </div>
+        
+        <div>
+          <%= form.label :author, class: "block text-sm font-semibold text-gray-700 mb-2 flex items-center" do %>
+            <svg class="w-5 h-5 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            Autor
+          <% end %>
+          <%= form.text_field :author, 
+              class: "w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all",
+              placeholder: "Ingresa el nombre del autor" %>
+          <% if @book.errors[:author].any? %>
+            <p class="text-red-500 text-sm mt-2 flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+              </svg>
+              <%= @book.errors[:author].first %>
+            </p>
+          <% end %>
+        </div>
+        
+        <div class="flex space-x-4 pt-4">
+          <%= form.submit "Actualizar Libro", 
+              class: "flex-1 bg-gradient-to-r from-purple-400 to-blue-600 text-white px-6 py-4 rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all font-bold" %>
+          <%= link_to "Cancelar", @book, 
+              class: "flex-1 bg-gray-200 text-gray-700 px-6 py-4 rounded-xl hover:bg-gray-300 transition-all font-semibold text-center" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+

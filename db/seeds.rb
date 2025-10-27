@@ -1,10 +1,19 @@
 # Crear superadmin
-admin = User.find_or_create_by!(email: "admin@example.com")
-admin.name = "Admin"
-admin.password = "password123"
-admin.role = "admin"
-admin.banned = false
-admin.save!
+admin = User.find_or_create_by!(email: "admin@example.com") do |u|
+  u.name = "Admin"
+  u.password = "password123"
+  u.role = "admin"
+  u.banned = false
+end
+
+# Si el usuario ya existía, actualizar sus datos
+unless admin.name == "Admin"
+  admin.name = "Admin"
+  admin.password = "password123"
+  admin.role = "admin"
+  admin.banned = false
+  admin.save!
+end
 
 # Crear usuarios regulares
 users = [
@@ -17,14 +26,23 @@ users = [
 ]
 
 users.each do |user_attrs|
-  user = User.find_or_create_by!(email: user_attrs[:email])
-  user.assign_attributes(
-    name: user_attrs[:name],
-    password: user_attrs[:password],
-    role: user_attrs[:role],
-    banned: user_attrs[:banned]
-  )
-  user.save!
+  user = User.find_or_create_by!(email: user_attrs[:email]) do |u|
+    u.name = user_attrs[:name]
+    u.password = user_attrs[:password]
+    u.role = user_attrs[:role]
+    u.banned = user_attrs[:banned]
+  end
+  
+  # Si el usuario ya existía, actualizar sus datos
+  if user.name != user_attrs[:name] || user.role != user_attrs[:role] || user.banned != user_attrs[:banned]
+    user.assign_attributes(
+      name: user_attrs[:name],
+      password: user_attrs[:password],
+      role: user_attrs[:role],
+      banned: user_attrs[:banned]
+    )
+    user.save!
+  end
 end
 
 # Crear libros

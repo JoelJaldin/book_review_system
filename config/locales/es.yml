@@ -8,6 +8,9 @@ es:
         rating: "Calificación"
         content: "Comentario"
         reviewer_name: "Nombre del revisor"
+      user:
+        password: "Contraseña"
+        password_digest: "Contraseña"
     errors:
       messages:
         record_invalid: "La validación falló: %{errors}"
@@ -40,6 +43,9 @@ es:
             email:
               blank: "no puede estar en blanco"
               taken: "ya existe"
+            password:
+              blank: "no puede estar en blanco"
+              too_short: "es demasiado corta (mínimo 6 caracteres)"
             role:
               blank: "no puede estar en blanco"
               inclusion: "no es válido"

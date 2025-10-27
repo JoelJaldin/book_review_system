@@ -4,12 +4,15 @@
       <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-500 to-blue-600 bg-clip-text text-transparent mb-2">
         📚 Catálogo de Libros
       </h1>
+      <p class="text-gray-600">Descubre libros increíbles y comparte tus opiniones</p>
     </div>
-    <%= link_to new_book_path, class: "flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all font-semibold" do %>
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-      </svg>
-      <span>Agregar Libro</span>
+    <% if current_user&.admin? %>
+      <%= link_to new_book_path, class: "flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all font-semibold" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span>Agregar Libro</span>
+      <% end %>
     <% end %>
   </div>
   
@@ -23,15 +26,17 @@
                 <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
               </svg>
             </div>
-            <%= button_to book_path(book), 
-                method: :delete,
-                confirm: "¿Estás seguro de que quieres eliminar este libro? También se eliminarán todas sus reseñas.",
-                form: { style: "display: inline;" },
-                class: "opacity-50 hover:opacity-100 p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-all",
-                title: "Eliminar libro" do %>
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-              </svg>
+            <% if current_user&.admin? %>
+              <%= button_to book_path(book), 
+                  method: :delete,
+                  confirm: "¿Estás seguro de que quieres eliminar este libro? También se eliminarán todas sus reseñas.",
+                  form: { style: "display: inline;" },
+                  class: "opacity-50 hover:opacity-100 p-2 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-all",
+                  title: "Eliminar libro" do %>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              <% end %>
             <% end %>
           </div>
           

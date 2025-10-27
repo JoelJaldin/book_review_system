@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_27_034430) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_27_120001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,8 +42,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_27_034430) do
     t.boolean "banned", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "user"
+    t.string "password_digest"
     t.index ["banned"], name: "index_users_on_banned"
     t.index ["name"], name: "index_users_on_name"
+    t.index ["role"], name: "index_users_on_role"
   end
 
   add_foreign_key "reviews", "books"

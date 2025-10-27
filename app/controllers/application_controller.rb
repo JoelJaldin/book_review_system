@@ -1,15 +1,30 @@
 class ApplicationController < ActionController::Base
-  # Habilitar turbo
   before_action :verify_authenticity_token
 
-  # Manejo de errores
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   private
 
   def record_not_found
-    flash[:alert] = "El registro solicitado no existe."
+    flash[:alert] = t('flash.alert.record_not_found')
     redirect_to root_path
   end
 
+  def require_admin
+    redirect_to root_path, alert: t('flash.alert.no_permission') unless current_user&.admin?
+  end
+
+  def require_login
+    unless current_user
+      redirect_to new_session_path, alert: t('flash.alert.login_required')
+    end
+  end
+
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  rescue ActiveRecord::RecordNotFound
+    session[:user_id] = nil
+    nil
+  end
+  helper_method :current_user
 end

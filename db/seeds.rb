@@ -1,18 +1,30 @@
-# Crear usuarios
+# Crear superadmin
+admin = User.find_or_create_by!(email: "admin@example.com")
+admin.name = "Admin"
+admin.password = "password123"
+admin.role = "admin"
+admin.banned = false
+admin.save!
+
+# Crear usuarios regulares
 users = [
-  { name: "Ana García", email: "ana@example.com", banned: false },
-  { name: "Carlos López", email: "carlos@example.com", banned: false },
-  { name: "María Rodríguez", email: "maria@example.com", banned: false },
-  { name: "Pedro Martínez", email: "pedro@example.com", banned: false },
-  { name: "Laura Sánchez", email: "laura@example.com", banned: false },
-  { name: "Usuario Baneado", email: "baneado@example.com", banned: true }
+  { name: "Ana García", email: "ana@example.com", password: "password123", role: "user", banned: false },
+  { name: "Carlos López", email: "carlos@example.com", password: "password123", role: "user", banned: false },
+  { name: "María Rodríguez", email: "maria@example.com", password: "password123", role: "user", banned: false },
+  { name: "Pedro Martínez", email: "pedro@example.com", password: "password123", role: "user", banned: false },
+  { name: "Laura Sánchez", email: "laura@example.com", password: "password123", role: "user", banned: false },
+  { name: "Usuario Baneado", email: "baneado@example.com", password: "password123", role: "user", banned: true }
 ]
 
 users.each do |user_attrs|
-  User.find_or_create_by!(email: user_attrs[:email]) do |user|
-    user.name = user_attrs[:name]
-    user.banned = user_attrs[:banned]
-  end
+  user = User.find_or_create_by!(email: user_attrs[:email])
+  user.assign_attributes(
+    name: user_attrs[:name],
+    password: user_attrs[:password],
+    role: user_attrs[:role],
+    banned: user_attrs[:banned]
+  )
+  user.save!
 end
 
 # Crear libros

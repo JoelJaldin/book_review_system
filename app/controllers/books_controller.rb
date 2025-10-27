@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :require_admin, only: [:new, :create, :edit, :update, :destroy]
 
   def index
     @books = Book.includes(:reviews).order(:title)
@@ -18,7 +19,7 @@ class BooksController < ApplicationController
     @book = Book.new(book_params)
 
     if @book.save
-      redirect_to @book, notice: 'Libro creado exitosamente.'
+      redirect_to @book, notice: t('flash.notice.book_created')
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +30,7 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to @book, notice: 'Libro actualizado exitosamente.'
+      redirect_to @book, notice: t('flash.notice.book_updated')
     else
       render :edit, status: :unprocessable_entity
     end
@@ -37,7 +38,7 @@ class BooksController < ApplicationController
 
   def destroy
     @book.destroy
-    redirect_to books_path, notice: 'Libro eliminado exitosamente.'
+    redirect_to books_path, notice: t('flash.notice.book_destroyed')
   end
 
   private

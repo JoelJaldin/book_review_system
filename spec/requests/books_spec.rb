@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Books", type: :request do
+  let(:admin_user) { create(:user, role: "admin") }
+  
+  before do
+    post "/login", params: { email: admin_user.email, password: "password123" }
+  end
+  
   describe "GET /books" do
     it "returns http success" do
       get "/books"

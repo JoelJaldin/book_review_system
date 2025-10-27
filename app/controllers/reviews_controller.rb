@@ -1,12 +1,13 @@
 class ReviewsController < ApplicationController
   before_action :set_book
   before_action :set_review, only: [:destroy]
+  before_action :require_login, only: [:create]
 
   def create
     @review = build_review_with_user
 
     if @review.save
-      redirect_to @book, notice: 'Reseña creada exitosamente.'
+      redirect_to @book, notice: t('flash.notice.review_created')
     else
       render_review_creation_error
     end
@@ -14,7 +15,7 @@ class ReviewsController < ApplicationController
 
   def destroy
     @review.destroy
-    redirect_to @book, notice: 'Reseña eliminada exitosamente.'
+    redirect_to @book, notice: t('flash.notice.review_destroyed')
   end
 
   private
@@ -33,20 +34,9 @@ class ReviewsController < ApplicationController
 
   def build_review_with_user
     review = @book.reviews.build(review_params)
-    review.user = find_or_create_user(review.reviewer_name)
+    review.user = current_user
+    review.reviewer_name = current_user.name
     review
-  end
-
-  def find_or_create_user(name)
-    # Buscar usuario existente no baneado con ese nombre
-    User.find_or_create_by(name: name, banned: false) do |user|
-      user.email = generate_email_for_name(name)
-      user.banned = false
-    end
-  end
-
-  def generate_email_for_name(name)
-    "#{name.downcase.gsub(/\s+/, '_')}@example.com"
   end
 
   def render_review_creation_error

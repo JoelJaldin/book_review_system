@@ -11,7 +11,9 @@ A web application developed with Ruby on Rails that allows managing book reviews
 - **Minimum Reviews**: At least 3 reviews required to show the average
 - **Modern Frontend**: Interface developed with Stimulus, Turbo and Tailwind CSS
 - **TDD Development**: Implemented following Test-Driven Development with RSpec
-- **User Management**: Ban/unban users functionality
+- **User Management**: Ban/unban users functionality with role-based permissions
+- **User Authentication**: Login/logout system with secure password handling
+- **Role-Based Access**: Admin and regular user roles with different permissions
 - **CRUD Operations**: Full Create, Read, Update, Delete operations for books and reviews
 
 ## Technologies Used
@@ -112,11 +114,21 @@ spec/
 ## Sample Data
 
 The system includes seeds with sample data:
-- 6 users (5 normal, 1 banned)
+- 1 admin user (email: admin@example.com, password: password123)
+- 5 regular users (all with password: password123)
+- 1 banned user
 - 8 books from different authors  
 - 11 reviews with varied ratings
 
 Run `rails db:seed` to populate the database with sample data.
+
+**Default Admin Credentials:**
+- Email: `admin@example.com`
+- Password: `password123`
+
+**Regular User Credentials (all users use the same password):**
+- Password: `password123`
+- Example emails: `ana@example.com`, `carlos@example.com`, etc.
 
 
 ## Test-Driven Development (TDD)

@@ -63,4 +63,7 @@ Rails.application.configure do
 
   # Serve assets from public directory
   config.public_file_server.enabled = true
+  
+  # Reduce log verbosity (optional - will also hide useful debug info)
+  # config.log_level = :warn
 end

@@ -9,6 +9,11 @@ es:
         content: "Comentario"
         reviewer_name: "Nombre del revisor"
     errors:
+      messages:
+        record_invalid: "La validación falló: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "No se puede borrar el registro porque existen dependencias"
+          has_many: "No se puede borrar el registro porque existen dependencias"
       models:
         book:
           attributes:
@@ -28,4 +33,34 @@ es:
             reviewer_name:
               blank: "no puede estar vacío"
               too_long: "es demasiado largo (máximo 100 caracteres)"
+        user:
+          attributes:
+            name:
+              blank: "no puede estar en blanco"
+            email:
+              blank: "no puede estar en blanco"
+              taken: "ya existe"
+            role:
+              blank: "no puede estar en blanco"
+              inclusion: "no es válido"
+
+  books:
+    insufficient_reviews: "Reseñas Insuficientes"
+
+  flash:
+    notice:
+      welcome: "Bienvenido, %{name}!"
+      book_created: "Libro creado exitosamente."
+      book_updated: "Libro actualizado exitosamente."
+      book_destroyed: "Libro eliminado exitosamente."
+      review_created: "Reseña creada exitosamente."
+      review_destroyed: "Reseña eliminada exitosamente."
+      user_banned: "Usuario %{name} ha sido baneado exitosamente."
+      user_unbanned: "Usuario %{name} ha sido desbaneado exitosamente."
+      logged_out: "Has cerrado sesión."
+    alert:
+      invalid_credentials: "Email o contraseña incorrectos."
+      record_not_found: "El registro solicitado no existe."
+      no_permission: "No tienes permisos para esta acción."
+      login_required: "Debes iniciar sesión para dejar una reseña."
 

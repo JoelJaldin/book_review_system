@@ -1,13 +1,24 @@
 class UsersController < ApplicationController
+  before_action :require_admin
+  before_action :set_user
+
   def ban
-    @user = User.find(params[:id])
     @user.update(banned: true)
-    redirect_to request.referer || root_path, notice: "Usuario #{@user.name} ha sido baneado exitosamente."
+    redirect_back_with_notice('flash.notice.user_banned')
   end
 
   def unban
-    @user = User.find(params[:id])
     @user.update(banned: false)
-    redirect_to request.referer || root_path, notice: "Usuario #{@user.name} ha sido desbaneado exitosamente."
+    redirect_back_with_notice('flash.notice.user_unbanned')
+  end
+
+  private
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def redirect_back_with_notice(notice_key)
+    redirect_to request.referer || root_path, notice: t(notice_key, name: @user.name)
   end
 end

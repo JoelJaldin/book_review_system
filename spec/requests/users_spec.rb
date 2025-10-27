@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe "Users", type: :request do
   let(:user) { create(:user) }
+  let(:admin_user) { create(:user, role: "admin") }
+  let(:banned_user) { create(:user, banned: true) }
+  
+  before do
+    post "/login", params: { email: admin_user.email, password: "password123" }
+  end
 
   describe "PATCH /users/:id/ban" do
     it "bans a user successfully" do
@@ -19,8 +25,6 @@ RSpec.describe "Users", type: :request do
   end
 
   describe "PATCH /users/:id/unban" do
-    let(:banned_user) { create(:user, banned: true) }
-
     it "unbans a user successfully" do
       expect {
         patch "/users/#{banned_user.id}/unban"

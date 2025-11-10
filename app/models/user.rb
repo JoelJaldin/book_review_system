@@ -6,13 +6,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
   validates :banned, inclusion: { in: [true, false] }
-  validates :role, presence: true, inclusion: { in: ['user', 'admin'] }
 
-  def admin?
-    role == 'admin'
-  end
+  # ENUM mejora type-safety, rendimiento y elimina errores tipográficos
+  enum role: { user: 'user', admin: 'admin' }, _default: 'user'
 
-  def regular_user?
-    role == 'user'
-  end
 end

@@ -5,24 +5,30 @@ class Book < ApplicationRecord
   validates :author, presence: true
 
   MIN_REVIEWS_FOR_AVERAGE = 3
-  INSUFFICIENT_REVIEWS = I18n.t("books.insufficient_reviews")
 
+  # Scopes de Review
   def average_rating
-    return INSUFFICIENT_REVIEWS unless has_enough_reviews?
-    
-    average = valid_reviews_for_rating.average(:rating)
-    return INSUFFICIENT_REVIEWS if average.nil?
+    return insufficient_reviews_message unless has_sufficient_reviews?
+
+    average = valid_reviews.average(:rating)
+    return insufficient_reviews_message if average.nil?
 
     average.round(1)
   end
 
-  private
-
-  def has_enough_reviews?
-    valid_reviews_for_rating.count >= MIN_REVIEWS_FOR_AVERAGE
+  def has_sufficient_reviews?
+    valid_reviews.count >= MIN_REVIEWS_FOR_AVERAGE
   end
 
-  def valid_reviews_for_rating
-    reviews.joins(:user).where(users: { banned: false })
+  # Scope de Review
+  def valid_reviews
+    reviews.from_active_users
+  end
+
+  private
+
+  # Refactorización: I18n se llama en el método, no como constante de clase
+  def insufficient_reviews_message
+    I18n.t("books.insufficient_reviews")
   end
 end

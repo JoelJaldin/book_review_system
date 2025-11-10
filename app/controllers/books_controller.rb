@@ -7,7 +7,8 @@ class BooksController < ApplicationController
   end
 
   def show
-    @reviews = load_reviews
+    # Scopes de Review
+    @reviews = @book.reviews.with_users.ordered_by_created
     @review = @book.reviews.build
   end
 
@@ -49,9 +50,5 @@ class BooksController < ApplicationController
 
   def book_params
     params.require(:book).permit(:title, :author)
-  end
-
-  def load_reviews
-    @book.reviews.includes(:user).order(created_at: :desc)
   end
 end

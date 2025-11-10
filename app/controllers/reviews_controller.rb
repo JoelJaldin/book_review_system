@@ -4,12 +4,15 @@ class ReviewsController < ApplicationController
   before_action :require_login, only: [:create]
 
   def create
-    @review = build_review_with_user
+    # Refactorización: usar método de clase build_for_user del modelo Review
+    @review = Review.build_for_user(@book, current_user, review_params)
 
     if @review.save
       redirect_to @book, notice: t('flash.notice.review_created')
     else
-      render_review_creation_error
+      # Scopes de Review
+      load_reviews_for_error
+      render 'books/show', status: :unprocessable_entity
     end
   end
 
@@ -28,19 +31,13 @@ class ReviewsController < ApplicationController
     @review = @book.reviews.find(params[:id])
   end
 
+  # Refactorización: eliminado :reviewer_name de params, se setea en modelo con callback
   def review_params
-    params.require(:review).permit(:rating, :content, :reviewer_name)
+    params.require(:review).permit(:rating, :content)
   end
 
-  def build_review_with_user
-    review = @book.reviews.build(review_params)
-    review.user = current_user
-    review.reviewer_name = current_user.name
-    review
-  end
-
-  def render_review_creation_error
-    @reviews = @book.reviews.includes(:user).order(created_at: :desc)
-    render 'books/show', status: :unprocessable_entity
+  # Scopes de Review
+  def load_reviews_for_error
+    @reviews = @book.reviews.with_users.ordered_by_created
   end
 end
